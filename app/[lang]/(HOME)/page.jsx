@@ -3,15 +3,16 @@
 
 import React from "react";
 import Hero from "./_components/Hero"; // Hero is a Client Component
-import CoursesSection from "./_components/CoursesSection";
 import CtaSection from "./_components/CtaSection";
-import Testimonials from "./_components/Testimonials";
-import OurInstructors from "./_components/OurInstructors";
-import Aboutus from "./_components/Aboutus";
-import LatestBlogs from "./_components/LatestBlogs";
+// import LatestBlogs from "./_components/LatestBlogs";
 import Partners from "./_components/Partners";
 
 import initTranslations from "@/i18n"; // Server-side i18n setup
+import ModulesSection from "./_components/ModulesSection";
+import OrganizationalStructure from "./_components/OrganizationalStructure";
+import AboutTheSystem from "./_components/AboutTheSystem";
+import MemberSpotlight from "./_components/MemberSpotlight";
+import LatestBlogs from "./_components/LatestBlogs";
 
 // Namespaces needed for *this Server Component* (page.jsx) if it uses t() directly
 const i18nNamespaces = ['common', 'homepage'];
@@ -41,14 +42,14 @@ export default async function Home({ params: { lang } }) {
 
         {/* Assuming these are also Client Components that might need useTranslation */}
         {/* They will rely on the TranslationsProvider in app/[lang]/layout.js */}
-        <CoursesSection />
+        <ModulesSection />
         <CtaSection />
-        <OurInstructors/>
-        <Aboutus />
+        <OrganizationalStructure/>
+        <AboutTheSystem />
 
         {/* Assuming these are also Client Components that might need useTranslation */}
         <LatestBlogs/>
-         <Testimonials/>
+         <MemberSpotlight/>
         <Partners/>
 
       </main>

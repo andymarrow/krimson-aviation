@@ -11,8 +11,8 @@ import ChatBubble from "@/components/ChatBubble/page";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-	title: "E - learning",
-	description: "Building the future",
+	title: "Centeral Hub",
+	description: "Growing our organization together",
 	// metadataBase: new URL('http://localhost:3000'), // Consider making this locale-aware later
 };
 

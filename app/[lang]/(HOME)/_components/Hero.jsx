@@ -1,88 +1,79 @@
 "use client"
 import React from "react";
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { FaArrowRight, FaSignInAlt, FaUsers } from "react-icons/fa";
 import Image from "next/image";
+import { motion } from "framer-motion"; // Import motion from framer-motion
 
-// IMPORT useTranslation from react-i18next
-import { useTranslation } from "react-i18next";
-
-// REMOVE props title and description from the function signature
 function Hero() {
-
-   // Use useTranslation to get the client-side t() function
-   // Specify the namespaces Hero needs
-   const { t } = useTranslation(['common', 'homepage']);
-
-
   return (
-    // Use py-12 or py-16 for more consistent vertical padding on section
-    <div className="container mx-auto mt-20 lg:mt-12 md:mt-36 px-4 py-8 sm:py-12 dark:text-white"> {/* Adjusted vertical padding */}
-      {/* Use responsive items alignment and gap */}
-      <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16"> {/* Slightly reduced default gap */}
+    // The container will act as the parent for the animation sequence
+    <div className="container mx-auto mt-20 lg:mt-12 md:mt-36 px-4 py-8 sm:py-12 dark:text-white overflow-hidden"> {/* Added overflow-hidden to contain animations */}
+      <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
 
-        {/* Left Side - Text Content */}
-        {/* Responsive width, text alignment */}
-        <div className="w-full lg:w-1/2 text-center lg:text-left z-10"> {/* Use lg:w-1/2 for wider split on large screens */}
-          {/* Subtitle with icon/line - Responsive alignment */}
+        {/* Left Side - Text Content with Animation */}
+        {/* We wrap this div with motion.div to animate all its children together */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} // Start invisible and slightly down
+          animate={{ opacity: 1, y: 0 }}   // Animate to fully visible and original position
+          transition={{ duration: 0.8, ease: "easeInOut" }} // Define the animation speed and easing
+          className="w-full lg:w-1/2 text-center lg:text-left z-10"
+        >
           <p className="text-sm font-semibold text-blue-600 dark:text-cyan-400 mb-3 flex items-center justify-center lg:justify-start">
              <span className="inline-block h-0.5 w-8 bg-blue-600 dark:bg-cyan-400 mr-2"></span>
-             {/* Translate this subtitle too */}
-             START YOUR JOURNEY{/* Assuming you add this key */}
+             YOUR CENTRAL HUB
           </p>
-          {/* Main Title - Responsive font sizes */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6
-                       text-gray-900 dark:text-white">
+          
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 text-gray-900 dark:text-white">
            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-600 dark:from-white dark:to-cyan-400">
-               {/* Use t() for the title */}
-               Unlock Your Potential with Our Courses
+               Empowering Our Organization, Together.
            </span>
           </h1>
-          {/* Description Paragraph - Responsive text size (optional) */}
+          
           <p className="text-lg dark:text-gray-300 mb-8 text-gray-700">
-             {/* Use t() for the description */}
-             Discover a world of knowledge with our expert-led courses. Whether you're starting a new career or enhancing your skills, we have something for you.
-             {/* REMOVE: ------------------- */}
+             Welcome to your central hub for connection, collaboration, and growth. Manage your membership, stay informed about events, and access the resources you need to make a difference.
           </p>
 
-          {/* Feature List - Translate these if needed */}
-          <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-3 sm:space-y-0 mb-10 justify-center lg:justify-start z-10"> {/* Use lg:justify-start */}
+          {/* Feature List */}
+          <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-3 sm:space-y-0 mb-10 justify-center lg:justify-start z-10">
             <div className="flex items-center dark:text-gray-300 text-gray-700">
-              <FaCheckCircle className="h-6 w-6 text-green-500 mr-2" />
-               Certified Instructors {/* Assuming keys like these */}
+              <FaUsers className="h-6 w-6 text-green-500 mr-2" />
+               Member Engagement
             </div>
             <div className="flex items-center dark:text-gray-300 text-gray-700">
-              <FaCheckCircle className="h-6 w-6 text-green-500 mr-2" />
-               Practical Skills
-            </div>
-             <div className="flex items-center dark:text-gray-300 text-gray-700">
-              <FaCheckCircle className="h-6 w-6 text-green-500 mr-2" />
-               Lifetime Access
+              <FaSignInAlt className="h-6 w-6 text-green-500 mr-2" />
+               Centralized Access
             </div>
           </div>
 
-          {/* Action Buttons - Translate button text */}
+          {/* Action Buttons */}
           <div className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0 justify-center lg:justify-start z-10">
             <button className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl text-lg w-full sm:w-auto animate-pulse-slow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:focus:ring-cyan-400">
-              Get Started → {/* Assuming keys like these */}
+              Login to Your Dashboard <FaArrowRight className="inline ml-2" />
             </button>
             <button className="bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white font-semibold px-8 py-4 rounded-full transition-colors duration-300 shadow-lg hover:shadow-xl text-lg w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 dark:focus:ring-gray-600">
-               Our courses  →
+               Join Our Organization
             </button>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Right Column: Image Container */}
-        <div className="w-full lg:w-1/2 relative mt-10 lg:mt-0">
+        {/* Right Column: Image Container with Animation */}
+        {/* We wrap this div with motion.div for the image animation */}
+        <motion.div
+            initial={{ opacity: 0, scale: 0.95 }} // Start invisible and slightly smaller
+            animate={{ opacity: 1, scale: 1 }}     // Animate to fully visible and original size
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} // Add a slight delay to start after the text
+            className="w-full lg:w-1/2 relative mt-10 lg:mt-0"
+        >
             <Image
-              src={"/images/student-hero.png"} // Make sure this image is in your public/images folder
-              alt={t('homepage:hero.image_alt')} // Translate alt text
+              src={"/images/leadership.jpg"} // You've already updated this, looks great!
+              alt={"A photo of our organization members collaborating"}
               layout="responsive"
               width={600}
               height={400}
               objectFit="contain"
-              className="w-full h-auto"
+              className="w-full h-auto rounded-lg shadow-lg"
             />
-        </div>
+        </motion.div>
       </div>
     </div>
   );

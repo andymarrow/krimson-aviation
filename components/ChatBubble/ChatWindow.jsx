@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 function ChatWindow({ activeTab, onTabChange, onClose }) {
 	const tabs = [
 		{ id: "assistants", name: "Assistants" },
-		{ id: "ai", name: "Train ex AI" },
+		{ id: "ai", name: "Centeral hub AI" },
 		{ id: "faq", name: "FAQs" }, // Changed name for clarity
 	];
 
@@ -20,7 +20,7 @@ function ChatWindow({ activeTab, onTabChange, onClose }) {
 			{/* Header */}
 			<div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700"> {/* Added background */}
 				<h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-					Train ex Support
+					Centeral hub Support
 				</h3>
 				<button
 					onClick={onClose}
@@ -50,7 +50,7 @@ function ChatWindow({ activeTab, onTabChange, onClose }) {
                         {activeTab === "assistants" && (
                             <ChatInterface tabName="Assistants" />
                         )}
-                        {activeTab === "ai" && <ChatInterface tabName="Train ex AI" />}
+                        {activeTab === "ai" && <ChatInterface tabName="Centeral hub AI" />}
                         {activeTab === "faq" && <FAQSection />}
                     </motion.div>
                 </AnimatePresence>

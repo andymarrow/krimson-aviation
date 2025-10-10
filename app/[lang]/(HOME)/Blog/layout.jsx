@@ -1,7 +1,7 @@
 import React from 'react'
 
 export const metadata = {
-  title: 'Blog - Train ex', 
+  title: 'Blog - Centeral hub', 
   description: 'Read our latest blog posts and articles on various topics.', 
 };
 

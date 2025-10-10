@@ -10,7 +10,6 @@ function Footer() {
     // Replicate the nav items from the Header
     const navItems = [
         { name: 'Home', href: '/' },
-    { name: 'Courses', href: '/Courses' },
     { name: 'Blog', href: '/Blog' },
     { name: 'Contact', href: '/contact' },
     { name: 'About', href: '/About', display: 'About us' },
@@ -55,28 +54,27 @@ function Footer() {
                         </div>
                         <div className="flex flex-col -space-y-1">
                             <span className="text-xl font-bold text-gray-800 dark:text-white">
-                                <span className="text-cyan-800 dark:text-cyan-500">Train</span> Ex
+                                <span className="text-cyan-800 dark:text-cyan-500">Centeral</span> Hub
                             </span>
                             <span className="text-xs text-gray-600 dark:text-gray-500">
-                                Online Learning
+                                Immigration / citizenship ms
                             </span>
                         </div>
                     </div>
                 </a>
             </Link>
             <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-500 max-w-sm mt-2 pt-4">
-              Making your future Bright.
+              Empowering Our Organization together.
             </p>
                 <p className="text-cyan-800 dark:text-cyan-500 pt-4">
-                    " Train Ex " 
+                    " Central Hub " 
                 </p>
           </div>
 
           {/* Column 2: Navigation Links */}
           <div className="w-full md:w-1/3 lg:w-1/4 items-center md:items-start text-center md:text-left"> 
             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4 border-b border-cyan-800 dark:border-cyan-600 pb-2 inline-block">
-                Social Links
-                Navigation
+                Our page routes
             </h3>
             <ul className="space-y-3">
               {navItems.map((item) => (
@@ -123,19 +121,19 @@ function Footer() {
                     Bole , Addis Ababa , Ethiopia
                 </p>
                 <div className="text-sm text-gray-700 dark:text-gray-500 mb-2 space-y-1">
-                    <div>ስልክ: +251 955 568 333</div>
-                    <div className="pl-8">+251 911 223 444 </div>
-                    <div className="pl-8">+251 925 267 444</div>
+                    <div>phone: +251 912 345 678</div>
+                    <div className="pl-8">+251 912 345 678 </div>
+                    <div className="pl-8">+251 912 345 678</div>
                 </div>
                 <p className="text-sm text-gray-700 dark:text-gray-500">
-                    Email: Trainex@Trainex.edu
+                    Email: Centralhub@Centralhub.org
                 </p>
             </div>
         </div>
 
         {/* Copyright Section */}
         <div className="text-center text-sm text-gray-600 dark:text-gray-600">
-          © {new Date().getFullYear()} Train Ex - all Rights reserved
+          © {new Date().getFullYear()} Central hub - all Rights reserved
         </div>
       </div>
     </footer>
