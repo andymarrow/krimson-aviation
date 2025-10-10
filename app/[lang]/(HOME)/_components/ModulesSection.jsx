@@ -4,18 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { FaCheckCircle, FaCogs } from 'react-icons/fa';
 
-// Import our new data and the new selector component
 import { systemModules} from '@/lib/constants';
-import ModuleSelector from './ModuleSelector'; // We will create this next
+import ModuleSelector from './ModuleSelector';
 
 function ModulesSection() {
-  // Set the default selected module to the first one (Dashboard)
   const [selectedModule, setSelectedModule] = useState(systemModules[0]);
-
-  const mainVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-  };
   
   const contentVariants = {
     hidden: { opacity: 0, x: -30 },
@@ -46,31 +39,41 @@ function ModulesSection() {
         {/* Main Interactive Layout */}
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
           
-          {/* Left Column: Module Selectors */}
-          <motion.div 
-            className="flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 hide-scrollbar"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={{
-                visible: { transition: { staggerChildren: 0.08 } }
-            }}
-          >
-            {systemModules.map(module => (
-              <ModuleSelector
-                key={module.id}
-                module={module}
-                isSelected={selectedModule.id === module.id}
-                onClick={() => setSelectedModule(module)}
-              />
-            ))}
-          </motion.div>
+          {/* --- MODIFICATION START --- */}
+          {/* We add a new parent div with 'relative' positioning to contain the gradient */}
+          <div className="relative lg:w-64">
+            {/* The original scrolling container remains the same */}
+            <motion.div 
+              className="flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 hide-scrollbar"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={{
+                  visible: { transition: { staggerChildren: 0.08 } }
+              }}
+            >
+              {systemModules.map(module => (
+                <ModuleSelector
+                  key={module.id}
+                  module={module}
+                  isSelected={selectedModule.id === module.id}
+                  onClick={() => setSelectedModule(module)}
+                />
+              ))}
+            </motion.div>
+
+            {/* THIS IS THE NEW GRADIENT OVERLAY */}
+            {/* It only appears on small screens (lg:hidden) and doesn't block mouse events */}
+            <div className="absolute top-0 right-0 bottom-0 w-16 bg-gradient-to-l from-white dark:from-gray-900 to-transparent pointer-events-none lg:hidden" aria-hidden="true" />
+          </div>
+          {/* --- MODIFICATION END --- */}
+
 
           {/* Right Column: Dynamic Content Display */}
           <div className="flex-1 min-h-[500px] bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 lg:p-12 overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
-                key={selectedModule.id} // This key is crucial for AnimatePresence to work
+                key={selectedModule.id}
                 variants={contentVariants}
                 initial="hidden"
                 animate="visible"
@@ -105,7 +108,7 @@ function ModulesSection() {
                 </div>
                 
                 {/* Image */}
-                <div className="lg:w-1/2 flex items-center justify-center mt-8 lg:mt-0">
+                <div className="lg:w-1-2 flex items-center justify-center mt-8 lg:mt-0">
                   <motion.div 
                     className="w-full h-64 lg:h-full relative"
                     initial={{ scale: 0.9, opacity: 0 }}
