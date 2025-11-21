@@ -1,27 +1,31 @@
 "use client";
-import { useTheme } from 'next-themes'; // This hook helps toggle themes
+import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import { HiSun, HiMoon } from 'react-icons/hi'; // Import icons from react-icons/hi
+import { HiSun, HiMoon } from 'react-icons/hi';
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true); // To prevent hydration errors
+    setMounted(true);
   }, []);
 
-  if (!mounted) return null; // Prevents hydration issues
+  if (!mounted) return null;
 
   return (
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="p-2 bg-gray-200 dark:bg-gray-800 text-black dark:text-white rounded-full transition-all duration-300 ease-in-out hover:scale-105 transform"
+      className="relative p-2.5 rounded-full transition-all duration-300 ease-out 
+      bg-gray-100 hover:bg-gray-200 text-krimson
+      dark:bg-white/10 dark:hover:bg-white/20 dark:text-amber-400
+      backdrop-blur-sm ring-1 ring-transparent dark:ring-white/10"
+      aria-label="Toggle Dark Mode"
     >
       {theme === 'dark' ? (
-        <HiSun className="w-6 h-6" /> // Sun icon for light mode
+        <HiSun className="w-5 h-5" />
       ) : (
-        <HiMoon className="w-6 h-6" /> // Moon icon for dark mode
+        <HiMoon className="w-5 h-5" />
       )}
     </button>
   );

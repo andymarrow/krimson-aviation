@@ -1,6 +1,7 @@
+"use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 function Pagination({ currentPage, totalPages, onPageChange }) {
 
@@ -12,7 +13,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
   // Function to generate the range of pages to display
   const getPageNumbers = () => {
     const pageNumbers = [];
-    const maxPagesToShow = 5; // How many page numbers to display at once (including ellipsis potential)
+    const maxPagesToShow = 5; // How many page numbers to display at once
     const boundaryPages = 1; // Pages always shown at the start and end
 
     if (totalPages <= maxPagesToShow) {
@@ -36,10 +37,9 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
       }
 
       // Add pages around the current page
-      // Adjust calculation to ensure we show enough pages around the current one
       let pagesAroundCurrent = maxPagesToShow - 2 * boundaryPages - (startEllipsis ? 1 : 0) - (endEllipsis ? 1 : 0);
       let startPage = Math.max(boundaryPages + 1, currentPage - Math.floor(pagesAroundCurrent / 2));
-      let endPage = Math.min(totalPages - boundaryPages, currentPage + Math.ceil(pagesAroundCurrent / 2) - (pagesAroundCurrent % 2 === 0 && startEllipsis && !endEllipsis ? 1 : 0)); // Adjust end page if start ellipsis is present and end is not
+      let endPage = Math.min(totalPages - boundaryPages, currentPage + Math.ceil(pagesAroundCurrent / 2) - (pagesAroundCurrent % 2 === 0 && startEllipsis && !endEllipsis ? 1 : 0));
 
       // Ensure we show exactly `pagesAroundCurrent` if possible
        if (endPage - startPage + 1 < pagesAroundCurrent) {
@@ -50,23 +50,18 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
            }
        }
 
-
       for (let i = startPage; i <= endPage; i++) {
-          // Only add if not already added
           if (!pageNumbers.includes(i)) {
              pageNumbers.push(i);
           }
       }
 
-
        // Add end ellipsis
       if (endEllipsis) {
-          // Only add if the last number added is not the one before the boundary pages
            if(pageNumbers.length === 0 || pageNumbers[pageNumbers.length - 1] < totalPages - boundaryPages) {
                pageNumbers.push('...');
            }
       }
-
 
       // Add end pages
       for (let i = totalPages - boundaryPages + 1; i <= totalPages; i++) {
@@ -81,46 +76,44 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
           if (b === '...') return -1;
           return a - b;
       });
-
     }
 
      return pageNumbers;
   };
 
-
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="flex justify-center items-center space-x-2 mt-8">
+    <div className="flex justify-center items-center space-x-3 mt-16">
       {/* Previous Button */}
       <motion.button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`p-2 rounded-md transition-colors flex items-center justify-center
+        whileTap={{ scale: 0.9 }}
+        className={`p-3 rounded-full transition-all flex items-center justify-center border
                    ${currentPage === 1
-                       ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
-                       : 'text-blue-600 hover:bg-blue-100 dark:text-cyan-500 dark:hover:bg-gray-700'
+                       ? 'text-gray-300 border-transparent cursor-not-allowed'
+                       : 'text-gray-700 border-gray-200 hover:border-krimson hover:text-krimson hover:bg-red-50 dark:text-white dark:border-white/10 dark:hover:bg-white/10 dark:hover:border-amber-500 dark:hover:text-amber-500'
                    }`}
-        whileTap={{ scale: currentPage === 1 ? 1 : 0.95 }}
       >
-        <FaChevronLeft className="w-4 h-4" />
-        <span className="sr-only">Previous Page</span> {/* Accessibility */}
+        <ChevronLeft size={20} />
+        <span className="sr-only">Previous Page</span>
       </motion.button>
 
       {/* Page Numbers */}
       {pageNumbers.map((number, index) => (
         number === '...' ? (
-          <span key={index} className="px-3 py-2 text-gray-600 dark:text-gray-400">...</span>
+          <span key={index} className="px-2 text-gray-400 dark:text-gray-600">...</span>
         ) : (
           <motion.button
             key={number}
             onClick={() => onPageChange(number)}
-            className={`px-4 py-2 rounded-md text-sm font-semibold transition-colors
+            whileTap={{ scale: 0.9 }}
+            className={`w-10 h-10 rounded-full text-sm font-bold transition-all flex items-center justify-center
                        ${currentPage === number
-                           ? 'bg-blue-600 text-white dark:bg-cyan-600 dark:text-gray-100'
-                           : 'text-gray-700 hover:bg-blue-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                           ? 'bg-krimson text-white shadow-lg shadow-krimson/30 scale-110 dark:bg-amber-500 dark:text-black dark:shadow-amber-500/20'
+                           : 'text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/10'
                        }`}
-             whileTap={{ scale: currentPage === number ? 1 : 0.95 }}
           >
             {number}
           </motion.button>
@@ -131,15 +124,15 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
       <motion.button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`p-2 rounded-md transition-colors flex items-center justify-center
+        whileTap={{ scale: 0.9 }}
+        className={`p-3 rounded-full transition-all flex items-center justify-center border
                    ${currentPage === totalPages
-                       ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
-                       : 'text-blue-600 hover:bg-blue-100 dark:text-cyan-500 dark:hover:bg-gray-700'
+                       ? 'text-gray-300 border-transparent cursor-not-allowed'
+                       : 'text-gray-700 border-gray-200 hover:border-krimson hover:text-krimson hover:bg-red-50 dark:text-white dark:border-white/10 dark:hover:bg-white/10 dark:hover:border-amber-500 dark:hover:text-amber-500'
                    }`}
-         whileTap={{ scale: currentPage === totalPages ? 1 : 0.95 }}
       >
-        <FaChevronRight className="w-4 h-4" />
-        <span className="sr-only">Next Page</span> {/* Accessibility */}
+        <ChevronRight size={20} />
+        <span className="sr-only">Next Page</span>
       </motion.button>
     </div>
   );

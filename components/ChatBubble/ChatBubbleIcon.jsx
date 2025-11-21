@@ -1,27 +1,32 @@
 "use client";
-
 import React from "react";
 import { motion } from "framer-motion";
-import { IoChatbubbleOutline } from "react-icons/io5";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 
 function ChatBubbleIcon({ onClick }) {
 	return (
 		<motion.button
-			className="fixed bottom-6 right-6 bg-blue-600 dark:bg-cyan-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 dark:hover:bg-cyan-600 transition-colors duration-200 z-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:focus:ring-cyan-500 dark:focus:ring-opacity-50" // Increased padding, adjusted position
+			className="fixed bottom-8 right-8 bg-krimson text-white p-4 rounded-full shadow-2xl hover:bg-red-900 transition-colors duration-300 z-[60] focus:outline-none ring-2 ring-white/20 dark:ring-black/20" 
 			onClick={onClick}
-			initial={{ opacity: 0, y: 50, x: 50, rotate: 180 }} // Start from bottom right, rotated
-			animate={{ opacity: 1, y: 0, x: 0, rotate: 0 }} // Animate to position, unrotated
+			initial={{ opacity: 0, scale: 0 }} 
+			animate={{ opacity: 1, scale: 1 }} 
 			transition={{
-                type: "spring", // Use spring physics for a bouncy feel
-                stiffness: 150,
-                damping: 10,
-                delay: 0.5 // Still delay appearance slightly
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+                delay: 1 
             }}
-			whileHover={{ scale: 1.1, rotate: 5 }} // Subtle hover effect
-            whileTap={{ scale: 0.9 }} // Subtle press effect
-			aria-label="Open chat support"
+			whileHover={{ scale: 1.1 }} 
+            whileTap={{ scale: 0.9 }}
+			aria-label="Open flight support"
 		>
-			<IoChatbubbleOutline className="h-8 w-8" /> {/* Increased icon size */}
+            {/* Ping animation to show 'Live' status */}
+            <span className="absolute top-0 right-0 -mt-1 -mr-1 flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+            </span>
+            
+			<IoChatbubbleEllipsesOutline className="h-7 w-7" />
 		</motion.button>
 	);
 }

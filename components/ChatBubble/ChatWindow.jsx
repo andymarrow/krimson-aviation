@@ -1,30 +1,31 @@
 "use client";
-
 import React from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import Tabs from "./Tabs";
 import ChatInterface from "./ChatInterface";
 import FAQSection from "./FAQSection";
-// Import motion AND AnimatePresence from framer-motion
 import { motion, AnimatePresence } from "framer-motion";
 
 function ChatWindow({ activeTab, onTabChange, onClose }) {
 	const tabs = [
-		{ id: "assistants", name: "Assistants" },
-		{ id: "ai", name: "Centeral hub AI" },
-		{ id: "faq", name: "FAQs" }, // Changed name for clarity
+		{ id: "ops", name: "Live Ops" },
+		{ id: "charter", name: "Charter" },
+		{ id: "faq", name: "Help" }, 
 	];
 
 	return (
-		<div className="flex flex-col h-full bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700"> {/* Added border, overflow hidden */}
+		<div className="flex flex-col h-full bg-white dark:bg-neutral-900 rounded-[2rem] shadow-2xl overflow-hidden border border-gray-200 dark:border-white/10 font-sans">
 			{/* Header */}
-			<div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700"> {/* Added background */}
-				<h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-					Centeral hub Support
-				</h3>
+			<div className="flex items-center justify-between p-5 bg-krimson text-white"> 
+				<div>
+                    <h3 className="text-lg font-bold">
+                        Krimson<span className="text-amber-400">.</span> Support
+                    </h3>
+                    <p className="text-xs text-red-100 opacity-80 uppercase tracking-widest">24/7 Response Team</p>
+                </div>
 				<button
 					onClick={onClose}
-					className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600" // Added padding, hover background
+					className="text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200 p-2 rounded-full"
 					aria-label="Close chat window"
 				>
 					<IoCloseOutline className="h-6 w-6" />
@@ -35,22 +36,22 @@ function ChatWindow({ activeTab, onTabChange, onClose }) {
 			<Tabs activeTab={activeTab} onTabChange={onTabChange} tabs={tabs} />
 
 			{/* Content Area */}
-			<div className="flex-grow overflow-hidden relative"> {/* Use overflow-hidden here, added relative for absolute positioning children if needed */}
-				{/* Use AnimatePresence and motion.div for smoother tab content transitions (optional but nice) */}
-                {/* AnimatePresence is now imported */}
-                <AnimatePresence mode="wait"> {/* Wait for exit before animating in */}
+			<div className="flex-grow overflow-hidden relative bg-gray-50 dark:bg-black/20"> 
+                <AnimatePresence mode="wait">
                     <motion.div
-                        key={activeTab} // Key changes when tab changes, triggering animation
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
+                        key={activeTab}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute inset-0 flex flex-col" // Position content absolutely to fill container
+                        className="absolute inset-0 flex flex-col"
                     >
-                        {activeTab === "assistants" && (
-                            <ChatInterface tabName="Assistants" />
+                        {activeTab === "ops" && (
+                            <ChatInterface tabName="Ops Center" placeholder="Enter permit number or airport code..." />
                         )}
-                        {activeTab === "ai" && <ChatInterface tabName="Centeral hub AI" />}
+                        {activeTab === "charter" && (
+                             <ChatInterface tabName="Charter Desk" placeholder="Departure, Destination, Pax count..." />
+                        )}
                         {activeTab === "faq" && <FAQSection />}
                     </motion.div>
                 </AnimatePresence>

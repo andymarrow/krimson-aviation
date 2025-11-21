@@ -1,53 +1,41 @@
 "use client"; 
 
 import React, { useState } from 'react';
-import { FaHeart, FaShareAlt, FaTwitter, FaFacebook, FaLinkedin } from 'react-icons/fa';
-
+import { Heart, Share2, Twitter, Facebook, Linkedin, Link as LinkIcon } from 'lucide-react';
 
 function BlogActions({ initialLikes, blogTitle, blogSlug }) {
   const [likes, setLikes] = useState(initialLikes || 0);
   const [liked, setLiked] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
 
-  // In a real app, this would send a request to your backend to update the like count
   const handleLike = () => {
     if (!liked) {
       setLikes(likes + 1);
       setLiked(true);
-      // TODO: Send API request to backend to record the like
-    } else {
-       // Optional: Allow unliking
-       // setLikes(likes - 1);
-       // setLiked(false);
-       // TODO: Send API request to backend to remove the like
     }
   };
 
   const handleShareClick = () => {
-    // Use Web Share API if available
     if (navigator.share) {
       navigator.share({
         title: blogTitle,
-        text: `Check out this blog post: ${blogTitle}`,
+        text: `Read this insight from Krimson Aviation: ${blogTitle}`,
         url: window.location.href,
       }).catch((error) => console.error('Error sharing:', error));
     } else {
-      // Fallback to showing share options
       setShowShareOptions(!showShareOptions);
     }
   };
 
-    // Function to copy link to clipboard
-    const copyLink = () => {
-        navigator.clipboard.writeText(window.location.href).then(() => {
-            alert("Link copied to clipboard!"); // Simple feedback
-            setShowShareOptions(false); // Close options after copy
-        }).catch(err => {
-            console.error('Failed to copy link: ', err);
-        });
-    };
+  const copyLink = () => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+          alert("Link copied to clipboard!");
+          setShowShareOptions(false);
+      }).catch(err => {
+          console.error('Failed to copy link: ', err);
+      });
+  };
 
-  // Construct share URLs (adjust based on actual sharing services)
   const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
   const shareText = encodeURIComponent(`Check out "${blogTitle}"`);
 
@@ -55,53 +43,49 @@ function BlogActions({ initialLikes, blogTitle, blogSlug }) {
   const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
   const linkedinUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(currentUrl)}&title=${encodeURIComponent(blogTitle)}`;
 
-
   return (
-    <div className="flex items-center space-x-6 mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+    <div className="flex items-center gap-6 mt-12 pt-8 border-t border-gray-200 dark:border-white/10">
       {/* Like Button */}
       <button
         onClick={handleLike}
-        className={`flex items-center space-x-2 text-gray-600 dark:text-gray-400 transition-colors ${liked ? 'text-red-500 dark:text-red-400' : 'hover:text-blue-600 dark:hover:text-cyan-400'}`}
-      
-        disabled={liked} // Disable after liking (client-side)
+        className={`group flex items-center gap-2 px-6 py-3 rounded-full border transition-all duration-300 ${
+            liked 
+            ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-krimson dark:text-red-400' 
+            : 'border-gray-200 dark:border-white/10 hover:border-krimson text-gray-600 dark:text-gray-400 hover:text-krimson dark:hover:text-white'
+        }`}
+        disabled={liked} 
       >
-        <FaHeart className={`w-5 h-5 ${liked ? 'fill-current' : 'stroke-current stroke-2'}`} /> {/* Solid heart when liked */}
-        <span>{likes} Likes</span>
+        <Heart className={`w-5 h-5 transition-transform group-hover:scale-110 ${liked ? 'fill-current' : ''}`} />
+        <span className="font-bold text-sm">{likes} Appreciations</span>
       </button>
 
       {/* Share Button */}
       <div className="relative">
         <button
           onClick={handleShareClick}
-          className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors"
-          
+          className="flex items-center gap-2 px-6 py-3 rounded-full border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300"
         >
-          <FaShareAlt className="w-5 h-5" />
-          <span>Share</span>
+          <Share2 className="w-5 h-5" />
+          <span className="font-bold text-sm">Share Insight</span>
         </button>
 
-        {/* Share Options Popover (Fallback for Web Share API) */}
-        <div>
-          {showShareOptions && !navigator.share && (
-            <div
-             
-              className="absolute left-0 bottom-full mb-2 w-40 bg-white dark:bg-gray-700 rounded-md shadow-lg p-3 text-sm z-10"
-            >
-              <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className="flex items-center px-2 py-1 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors">
-                <FaTwitter className="mr-2 text-blue-400" /> Twitter
+        {/* Share Popover */}
+        {showShareOptions && !navigator.share && (
+            <div className="absolute left-0 bottom-full mb-4 w-48 bg-white dark:bg-neutral-900 rounded-2xl shadow-xl border border-gray-100 dark:border-white/10 p-2 z-20 overflow-hidden">
+              <a href={twitterUrl} target="_blank" rel="noreferrer" className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl transition-colors">
+                <Twitter size={16} className="text-black dark:text-white" /> X (Twitter)
               </a>
-               <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="flex items-center px-2 py-1 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors">
-                <FaFacebook className="mr-2 text-blue-600" /> Facebook
+               <a href={facebookUrl} target="_blank" rel="noreferrer" className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl transition-colors">
+                <Facebook size={16} className="text-blue-600" /> Facebook
               </a>
-              <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className="flex items-center px-2 py-1 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors">
-                <FaLinkedin className="mr-2 text-blue-700" /> LinkedIn
+              <a href={linkedinUrl} target="_blank" rel="noreferrer" className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl transition-colors">
+                <Linkedin size={16} className="text-blue-700" /> LinkedIn
               </a>
-               <button onClick={copyLink} className="flex items-center w-full text-left px-2 py-1 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors mt-1 border-t border-gray-200 dark:border-gray-600 pt-2">
-                 <FaShareAlt className="mr-2 text-gray-500" /> Copy Link
+               <button onClick={copyLink} className="flex items-center gap-3 w-full text-left px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl transition-colors border-t border-gray-100 dark:border-white/5 mt-1 pt-2">
+                 <LinkIcon size={16} className="text-amber-500" /> Copy Link
                </button>
             </div>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );

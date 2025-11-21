@@ -1,82 +1,90 @@
-"use client"
-import React from "react";
-import { FaArrowRight, FaSignInAlt, FaUsers } from "react-icons/fa";
-import Image from "next/image";
-import { motion } from "framer-motion"; // Import motion from framer-motion
+"use client";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { ArrowRight, Plane } from "lucide-react";
 
-function Hero() {
+export default function Hero() {
   return (
-    // The container will act as the parent for the animation sequence
-    <div className="container mx-auto mt-20 lg:mt-12 md:mt-36 px-4 py-8 sm:py-12 dark:text-white overflow-hidden"> {/* Added overflow-hidden to contain animations */}
-      <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+    <section className="relative pt-28 pb-12 md:pt-32 md:pb-20 px-4 md:px-8 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+      
+      {/* Left: Content */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="space-y-6 md:space-y-8 z-10 order-1"
+      >
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 bg-white dark:bg-white/10 border border-gray-200 dark:border-white/10 rounded-full shadow-sm backdrop-blur-md transition-colors">
+          <span className="w-2 h-2 bg-krimson dark:bg-amber-500 rounded-full animate-pulse"></span>
+          <span className="text-xs md:text-sm font-medium text-gray-600 dark:text-gray-200">Premier African Aviation Network</span>
+        </div>
 
-        {/* Left Side - Text Content with Animation */}
-        {/* We wrap this div with motion.div to animate all its children together */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} // Start invisible and slightly down
-          animate={{ opacity: 1, y: 0 }}   // Animate to fully visible and original position
-          transition={{ duration: 0.8, ease: "easeInOut" }} // Define the animation speed and easing
-          className="w-full lg:w-1/2 text-center lg:text-left z-10"
+        {/* Heading - Responsive Text Sizes */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 dark:text-white leading-[1.1] tracking-tight">
+          The Gold Standard <br />
+          in <span className="text-krimson dark:text-amber-500 relative">
+             African Sky
+             {/* Underline graphic */}
+             <svg className="absolute w-full h-2 md:h-3 -bottom-1 left-0 text-krimson/20 dark:text-amber-500/30" viewBox="0 0 100 10" preserveAspectRatio="none">
+               <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="3" fill="none" />
+             </svg>
+          </span>
+        </h1>
+
+        {/* Subtext */}
+        <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-md leading-relaxed">
+          From flight support to luxury concierge, Krimson bridges the gap between international standards and African execution.
+        </p>
+
+        {/* Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Link href="/contact" className="px-8 py-4 bg-krimson hover:bg-krimson-light dark:bg-white dark:text-black dark:hover:bg-amber-400 text-white rounded-full font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-krimson/20 dark:shadow-none">
+            Request Support <ArrowRight className="w-4 h-4" />
+          </Link>
+          <Link href="/fleet" className="px-8 py-4 bg-white border border-gray-200 hover:bg-gray-50 dark:bg-transparent dark:border-white/20 dark:text-white dark:hover:bg-white/10 text-gray-900 rounded-full font-semibold transition-all flex items-center justify-center gap-2">
+            Explore Fleet
+          </Link>
+        </div>
+      </motion.div>
+
+      {/* Right: Visuals - Now visible on Mobile */}
+      <div className="relative h-[350px] md:h-[500px] w-full order-2 lg:mt-0 mt-4">
+        
+        {/* Main Image Blob */}
+        <motion.div 
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          // Mobile: Width 100%, Height 100%. Desktop: Width 90%, Offset
+          className="absolute inset-0 lg:top-0 lg:right-0 lg:w-[90%] lg:h-[90%] bg-gray-200 dark:bg-gray-800 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl ring-1 ring-gray-900/5 dark:ring-white/10"
         >
-          <p className="text-sm font-semibold text-blue-600 dark:text-cyan-400 mb-3 flex items-center justify-center lg:justify-start">
-             <span className="inline-block h-0.5 w-8 bg-blue-600 dark:bg-cyan-400 mr-2"></span>
-             YOUR CENTRAL HUB
-          </p>
-          
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 text-gray-900 dark:text-white">
-           <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-600 dark:from-white dark:to-cyan-400">
-               Empowering Our Organization, Together.
-           </span>
-          </h1>
-          
-          <p className="text-lg dark:text-gray-300 mb-8 text-gray-700">
-             Welcome to your central hub for connection, collaboration, and growth. Manage your membership, stay informed about events, and access the resources you need to make a difference.
-          </p>
-
-          {/* Feature List */}
-          <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-3 sm:space-y-0 mb-10 justify-center lg:justify-start z-10">
-            <div className="flex items-center dark:text-gray-300 text-gray-700">
-              <FaUsers className="h-6 w-6 text-green-500 mr-2" />
-               Member Engagement
-            </div>
-            <div className="flex items-center dark:text-gray-300 text-gray-700">
-              <FaSignInAlt className="h-6 w-6 text-green-500 mr-2" />
-               Centralized Access
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0 justify-center lg:justify-start z-10">
-            <button className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl text-lg w-full sm:w-auto animate-pulse-slow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 dark:focus:ring-cyan-400">
-              Login to Your Dashboard <FaArrowRight className="inline ml-2" />
-            </button>
-            <button className="bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white font-semibold px-8 py-4 rounded-full transition-colors duration-300 shadow-lg hover:shadow-xl text-lg w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 dark:focus:ring-gray-600">
-               Join Our Organization
-            </button>
-          </div>
-        </motion.div>
-
-        {/* Right Column: Image Container with Animation */}
-        {/* We wrap this div with motion.div for the image animation */}
-        <motion.div
-            initial={{ opacity: 0, scale: 0.95 }} // Start invisible and slightly smaller
-            animate={{ opacity: 1, scale: 1 }}     // Animate to fully visible and original size
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} // Add a slight delay to start after the text
-            className="w-full lg:w-1/2 relative mt-10 lg:mt-0"
-        >
-            <Image
-              src={"/images/leadership.jpg"} // You've already updated this, looks great!
-              alt={"A photo of our organization members collaborating"}
-              layout="responsive"
-              width={600}
-              height={400}
-              objectFit="contain"
-              className="w-full h-auto rounded-lg shadow-lg"
+            <img 
+              src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2000&auto=format&fit=crop" 
+              alt="Private Jet" 
+              className="w-full h-full object-cover opacity-90 dark:opacity-80"
             />
         </motion.div>
+
+        {/* Floating Card 1: Status - Responsive Position */}
+        <motion.div 
+          initial={{ x: 20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          // Mobile: Bottom Left, slightly smaller padding. Desktop: Original position.
+          className="absolute bottom-4 left-4 md:bottom-10 md:left-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md p-3 md:p-4 rounded-2xl shadow-xl border border-white/50 dark:border-white/10 max-w-[180px] md:max-w-[220px]"
+        >
+          <div className="flex items-center gap-3 mb-1 md:mb-2">
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center text-green-600 dark:text-green-400">
+              <Plane size={16} className="md:w-5 md:h-5" />
+            </div>
+            <div>
+              <p className="text-[10px] md:text-xs text-gray-500 dark:text-gray-400">Current Ops</p>
+              <p className="text-sm md:text-base font-bold text-gray-900 dark:text-white">24 Active Flights</p>
+            </div>
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 }
-
-export default Hero;

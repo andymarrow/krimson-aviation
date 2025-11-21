@@ -1,42 +1,32 @@
 "use client"; 
-
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image'; 
 
 function RelatedBlogItem({ blog }) {
-    
-    if (!blog || !blog.id || !blog.title || !blog.excerpt || !blog.imageUrl) {
-        console.warn("RelatedBlogItem received incomplete blog data:", blog);
-        return null; // Or render a placeholder/error
-    }
-
-   
-    // Assuming your dynamic route is /(HOME)/Blog/[id]
-    const blogHref = `/Blog/${blog.id}`;
+    if (!blog || !blog.id) return null;
 
     return (
-        <Link href={blogHref} className="block group hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg p-4 transition-colors duration-200 -mx-4 sm:mx-0"> {/* Add negative margin for hover effect padding */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center">
+        <Link href={`/Blog/${blog.id}`} className="block group">
+            <div className="flex gap-5 items-start p-4 -mx-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors duration-300">
                 {/* Image */}
-                <div className="flex-shrink-0 w-full sm:w-24 h-32 sm:h-20 rounded-md overflow-hidden mb-4 sm:mb-0 sm:mr-4">
+                <div className="relative w-24 h-24 rounded-xl overflow-hidden shrink-0 border border-gray-100 dark:border-white/10">
                     <Image
                         src={blog.imageUrl}
                         alt={blog.title}
-                        width={200} 
-                        height={150} 
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                 </div>
 
                 {/* Text Content */}
-                <div className="flex-grow">
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-200">
+                <div className="flex-grow pt-1">
+                    <span className="text-[10px] font-bold text-krimson dark:text-amber-500 uppercase tracking-widest mb-1 block">
+                        Read Next
+                    </span>
+                    <h3 className="text-base font-bold text-gray-900 dark:text-white leading-snug mb-2 group-hover:text-krimson transition-colors">
                         {blog.title}
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2"> {/* Limit excerpt lines */}
-                        {blog.excerpt}
-                    </p>
                 </div>
             </div>
         </Link>

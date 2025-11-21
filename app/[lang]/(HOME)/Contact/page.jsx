@@ -1,15 +1,21 @@
-"use client"
-import React from 'react'
-import { motion } from 'framer-motion';
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
-import Contactus from '../_components/Contactus';
+import ContactHero from "./_components/ContactHero";
+import LocationCards from "./_components/LocationCards";
+import ContactFormMap from "./_components/ContactFormMap";
+import SocialHub from "./_components/SocialHub";
+import CtaSection from "../_components/CtaSection";
 
-function ContactPage() {
+export default function ContactPage() {
   return (
-    <div>
-       <Contactus />
-    </div>
-  )
+    <main className="bg-gray-50 dark:bg-neutral-950 min-h-screen selection:bg-krimson selection:text-white transition-colors duration-300">
+      <ContactHero />
+      
+      <LocationCards />
+      
+      <ContactFormMap />
+      
+      <SocialHub />
+      
+      <CtaSection />
+    </main>
+  );
 }
-
-export default ContactPage

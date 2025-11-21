@@ -1,59 +1,52 @@
-// app/[lang]/(HOME)/page.jsx
-// REMOVE: 'use client' <-- This file should be a Server Component
-
-import React from "react";
-import Hero from "./_components/Hero"; // Hero is a Client Component
+import Hero from "./_components/Hero";
+import TrustedBy from "./_components/TrustedBy";
+import WhyKrimson from "./_components/WhyKrimson"; // Import New Component
+import ServicesBento from "./_components/ServicesBento";
+import StatsSection from "./_components/StatsSection";
+import ConsultingCta from "./_components/ConsultingCta"; // Import New Component
 import CtaSection from "./_components/CtaSection";
-// import LatestBlogs from "./_components/LatestBlogs";
-import Partners from "./_components/Partners";
+import LatestBlogs from "./_components/LatestBlogs"; 
 
-import initTranslations from "@/i18n"; // Server-side i18n setup
-import ModulesSection from "./_components/ModulesSection";
-import OrganizationalStructure from "./_components/OrganizationalStructure";
-import AboutTheSystem from "./_components/AboutTheSystem";
-import MemberSpotlight from "./_components/MemberSpotlight";
-import LatestBlogs from "./_components/LatestBlogs";
-
-// Namespaces needed for *this Server Component* (page.jsx) if it uses t() directly
-const i18nNamespaces = ['common', 'homepage'];
-
-export default async function Home({ params: { lang } }) {
-
-   // Initialize translations for this server component (page.jsx itself)
-   // Keep this if you use t() for server-rendered text *directly in this file*
-   // The result `t` here is the SERVER-SIDE translation function.
-   const { t } = await initTranslations({
-       locale: lang,
-       namespaces: i18nNamespaces,
-   });
-
-
+export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <main className="bg-krimson-cream dark:bg-neutral-950 min-h-screen overflow-hidden selection:bg-krimson selection:text-white transition-colors duration-300">
+      
+      {/* 1. Hero Section */}
+      <Hero />
+      
+      {/* 2. Trust Indicators (Logos) */}
+      <TrustedBy />
 
-      <main className="flex-grow">
-         {/* Render the Client Component Hero */}
-         {/* Hero uses useTranslation internally, so DO NOT pass translated props like title, description */}
-         <Hero />
+      {/* 3. NEW: Why Choose Us & Certifications */}
+      {/* This fills the gap of "Time, Team, Network" and the NBAA/EBAA logos */}
+      <WhyKrimson />
 
-        {/* Example: Using t() for a server-rendered part of the page (if needed) */}
-        {/* <h1>{t('common:some_server_rendered_heading')}</h1> */}
+      {/* 4. Services Grid */}
+      <div className="py-10 px-4 md:px-8 max-w-7xl mx-auto">
+        <div className="mb-12 text-center md:text-left">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
+            We don't just fly.<br />
+            <span className="text-krimson dark:text-amber-500">We Orchestrate.</span>
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 max-w-xl text-lg">
+            Comprehensive aviation solutions tailored for the unique challenges of the African continent.
+          </p>
+        </div>
+        <ServicesBento />
+      </div>
 
+      {/* 5. Stats */}
+      <StatsSection />
 
-        {/* Assuming these are also Client Components that might need useTranslation */}
-        {/* They will rely on the TranslationsProvider in app/[lang]/layout.js */}
-        <ModulesSection />
-        <CtaSection />
-        <OrganizationalStructure/>
-        <AboutTheSystem />
+      {/* 6. NEW: Consulting specific CTA */}
+      {/* Covers the "Consulting" service that was prominent on the old site */}
+      <ConsultingCta />
 
-        {/* Assuming these are also Client Components that might need useTranslation */}
-        <LatestBlogs/>
-         <MemberSpotlight/>
-        <Partners/>
+      {/* 7. Blog */}
+      <LatestBlogs />
 
-      </main>
-
-    </div>
+      {/* 8. Final Call to Action */}
+      <CtaSection />
+    </main>
   );
 }

@@ -1,23 +1,28 @@
+"use client";
 import React from 'react';
-import { FaFilter } from 'react-icons/fa';
+import { Filter } from 'lucide-react';
 
 function BlogFilters({ selectedCategory, onFilterChange, categories }) {
   return (
-    <div className="relative">
+    <div className="relative min-w-[200px]">
+      <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+        <Filter size={16} className="text-krimson dark:text-amber-500" />
+      </div>
       <select
         value={selectedCategory}
         onChange={(e) => onFilterChange(e.target.value)}
-        className="block w-full px-4 py-2 pl-8 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:focus:ring-cyan-500 transition-colors pr-8" // Added pr-8 for arrow space
+        className="block w-full pl-10 pr-10 py-3 text-sm bg-white dark:bg-neutral-900 border border-gray-200 dark:border-white/10 rounded-full appearance-none focus:outline-none focus:ring-2 focus:ring-krimson/20 text-gray-700 dark:text-gray-200 font-medium cursor-pointer hover:border-krimson transition-colors"
       >
-        <option value="">All Categories</option>
+        <option value="">All Topics</option>
         {categories.map(category => (
           <option key={category} value={category}>{category}</option>
         ))}
       </select>
-       <FaFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none" /> {/* Icon */}
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
-            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-        </div> {/* Custom arrow */}
+      
+      {/* Custom Arrow */}
+      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+         <div className="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] border-t-gray-400"></div>
+      </div>
     </div>
   );
 }

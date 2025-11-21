@@ -1,264 +1,273 @@
 "use client";
-
-import React, { useState } from "react";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, Plane, HeartPulse, Wrench, Briefcase, Map, Star, Menu, X } from "lucide-react"; 
+import ThemeToggle from "@/components/Themetoggle";
 
-// REMOVED: Social media icons not used in this header
-// import { FaFacebook, FaTwitter, FaLinkedin, FaYoutube } from "react-icons/fa";
+// Define the services data for the dropdown
+const servicesList = [
+  { 
+    title: "Flight Support", 
+    href: "/services/flight-support", 
+    desc: "Permits & Handling",
+    icon: Map 
+  },
+  { 
+    title: "Charter & Leasing", 
+    href: "/services/charter", 
+    desc: "Private & Commercial",
+    icon: Plane 
+  },
+  { 
+    title: "Luxury Koncierge", 
+    href: "/services/koncierge", 
+    desc: "VIP Travel & Hotels",
+    icon: Star 
+  },
+  { 
+    title: "Aeromedical", 
+    href: "/services/aeromedical", 
+    desc: "24/7 Evacuation",
+    icon: HeartPulse 
+  },
+  { 
+    title: "MRO Solutions", 
+    href: "/services/mro", 
+    desc: "Maintenance Support",
+    icon: Wrench 
+  },
+  { 
+    title: "Consulting", 
+    href: "/services/consulting", 
+    desc: "Aviation Strategy",
+    icon: Briefcase 
+  },
+];
 
-// UPDATED: Removed Cart and Wishlist icons, kept what's needed
-import {
-	IoMenuOutline,
-	IoCloseOutline,
-	IoChevronDownOutline,
-	IoChevronUpOutline,
-} from "react-icons/io5";
-import ThemeToggle from "@/components/Themetoggle"; // Adjust path if necessary
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [hoveredService, setHoveredService] = useState(false);
+  
+  // Mobile State
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
 
-// REMOVED: WishlistCartDropdown component is no longer needed
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-// REMOVED: All dummy data and initial state for cart/wishlist are gone
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMobileMenuOpen]);
 
-function Header() {
-	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-	const [openMobileDropdown, setOpenMobileDropdown] = useState(null);
+  return (
+    <>
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled || isMobileMenuOpen
+          ? "py-3 bg-white/90 dark:bg-black/80 backdrop-blur-xl shadow-sm border-b border-gray-200 dark:border-white/5" 
+          : "py-6 bg-transparent"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
+        
+        {/* Logo Section */}
+        <Link href="/" className="flex items-center gap-3 z-50" onClick={() => setIsMobileMenuOpen(false)}>
+          <div className="relative w-12 h-12 md:w-14 md:h-14">
+             <Image 
+               src="/images/logo.png" 
+               alt="Krimson Aviation" 
+               fill 
+               className="object-contain"
+             />
+          </div>
+          <span className="text-2xl font-bold text-gray-900 dark:text-white transition-colors">
+            Krimson<span className="text-krimson dark:text-amber-500">.</span>
+          </span>
+        </Link>
 
-	// REMOVED: State for dropdowns (isWishlistOpen, isCartOpen) is gone
-    // REMOVED: State for items (wishlistItems, cartItems) is gone
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-1 bg-white/50 dark:bg-white/5 px-2 py-1.5 rounded-full border border-white/20 dark:border-white/10 backdrop-blur-md shadow-sm transition-colors relative">
+            
+            <Link href="/about" className="px-5 py-2 rounded-full text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-white/10 hover:text-krimson dark:hover:text-amber-400 transition-all">
+              About
+            </Link>
 
-	const toggleMobileMenu = () => {
-		setIsMobileMenuOpen(!isMobileMenuOpen);
-		if (isMobileMenuOpen) { // If closing the menu
-			setOpenMobileDropdown(null);
-		}
-	};
+            {/* --- Desktop Dropdown --- */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setHoveredService(true)}
+              onMouseLeave={() => setHoveredService(false)}
+            >
+              <button 
+                className={`px-5 py-2 rounded-full text-sm font-medium flex items-center gap-1 transition-all ${
+                  hoveredService 
+                    ? "bg-white dark:bg-white/10 text-krimson dark:text-amber-500" 
+                    : "text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-white/10 hover:text-krimson dark:hover:text-amber-400"
+                }`}
+              >
+                Services
+                <ChevronDown 
+                  size={14} 
+                  className={`transition-transform duration-300 ${hoveredService ? "rotate-180" : ""}`} 
+                />
+              </button>
 
-	const toggleMobileDropdown = (name) => {
-		setOpenMobileDropdown(openMobileDropdown === name ? null : name);
-	};
+              <AnimatePresence>
+                {hoveredService && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[480px] p-4 bg-white dark:bg-[#0a0a0a] rounded-[2rem] shadow-2xl border border-gray-100 dark:border-white/10 overflow-hidden"
+                  >
+                    <div className="absolute -top-6 left-0 right-0 h-6 bg-transparent" />
+                    <div className="grid grid-cols-2 gap-2">
+                      {servicesList.map((service) => (
+                        <Link 
+                          key={service.title} 
+                          href={service.href}
+                          className="group flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                        >
+                          <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center text-gray-500 dark:text-gray-400 group-hover:bg-krimson group-hover:text-white dark:group-hover:bg-amber-500 dark:group-hover:text-black transition-all duration-300">
+                            <service.icon size={18} />
+                          </div>
+                          <div>
+                            <div className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-krimson dark:group-hover:text-amber-500 transition-colors">
+                              {service.title}
+                            </div>
+                            <div className="text-xs text-gray-500 dark:text-gray-500">
+                              {service.desc}
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                    <div className="mt-4 pt-3 border-t border-gray-100 dark:border-white/5 text-center">
+                      <Link href="/services" className="text-xs font-semibold text-gray-400 hover:text-krimson dark:hover:text-amber-500 uppercase tracking-widest transition-colors">
+                        View All Capabilities →
+                      </Link>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
-    // REMOVED: All dropdown logic for cart/wishlist is gone (closeDropdowns, toggles, handleRemoveItem)
+            <Link href="/Blog" className="px-5 py-2 rounded-full text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-white/10 hover:text-krimson dark:hover:text-amber-400 transition-all">
+              Insights
+            </Link>
+            <Link href="/contact" className="px-5 py-2 rounded-full text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-white/10 hover:text-krimson dark:hover:text-amber-400 transition-all">
+              Contact
+            </Link>
+        </nav>
 
-	// UPDATED: The navLinks array is now tailored to the new system
-	const navLinks = [
-		{ name: "Home", href: "/" },
-		{
-			name: "Features", // Changed from "Courses"
-			href: "/#modules", // Links to the Modules section on the homepage
-			dropdown: [
-				{ name: "Dashboard", href: "/#modules" },
-				{ name: "Membership", href: "/#modules" },
-				{ name: "Events", href: "/#modules" },
-				{ name: "Reporting", href: "/#modules" },
-				{ name: "Leagues", href: "/#modules" },
-			],
-		},
-		{
-			name: "News", // Changed from "Blog" for better context
-			href: "/#news", // Assumes an ID on your News/Events timeline section
-			dropdown: [
-				{ name: "All Updates", href: "/Blog" }, // Link to the full blog page
-				{ name: "Announcements", href: "/Blog?category=Announcements" },
-			],
-		},
-		{ name: "About", href: "/about" }, // Assumes an ID on your About The System section
-		{ name: "Contact", href: "/Contact" },
-	];
+        {/* Actions (Toggle + CTA + Hamburger) */}
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          
+          <Link href="/quote" className="hidden md:block bg-gray-900 hover:bg-krimson dark:bg-white dark:text-black dark:hover:bg-amber-400 text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-krimson/20">
+            Get a Quote
+          </Link>
 
-	return (
-		<header className="relative bg-white dark:bg-gray-900 shadow-sm z-50">
-			{/* Main Header Content */}
-			<div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20 md:h-24">
-				{/* Logo */}
-				<Link href="/">
-					<div className="flex items-center">
-						<Image
-							src="/images/logo.jpg" // You can keep your logo
-							alt="Organization Logo"
-							width={40}
-							height={40}
-							className="mr-2 rounded-md"
-						/>
-						<span className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-cyan-400">
-							Centeral hub
-						</span>
-					</div>
-				</Link>
+          {/* Mobile Menu Toggle */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+          >
+            {isMobileMenuOpen ? <X size={24} className="text-gray-900 dark:text-white" /> : <Menu size={24} className="text-gray-900 dark:text-white" />}
+          </button>
+        </div>
+      </div>
+    </header>
 
-				{/* Desktop Navigation (Hidden on Mobile) */}
-				<nav className="hidden md:flex flex-grow justify-center space-x-8 lg:space-x-12">
-					{navLinks.map((link) =>
-						link.dropdown ? (
-							// Dropdown Trigger
-							<div key={link.name} className="relative group cursor-pointer">
-								<div className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-cyan-400 font-semibold transition-colors duration-200 inline-flex items-center py-2">
-									{link.name}
-									<IoChevronDownOutline className="ml-1 h-3 w-3 group-hover:rotate-180 transition-transform duration-200" />
-								</div>
-								{/* Dropdown Content */}
-								<div className="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-700 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto z-50 overflow-hidden ring-1 ring-black ring-opacity-5">
-									{link.dropdown.map((dropItem) => (
-										<Link
-											key={dropItem.name}
-											href={dropItem.href}
-											className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-600 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors duration-200"
-										>
-											{dropItem.name}
-										</Link>
-									))}
-								</div>
-							</div>
-						) : (
-							// Simple Nav Item
-							<Link
-								key={link.name}
-								href={link.href}
-								className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-cyan-400 font-semibold transition-colors duration-200 py-2"
-							>
-								{link.name}
-							</Link>
-						)
-					)}
-				</nav>
+    {/* --- Mobile Menu Overlay --- */}
+    <AnimatePresence>
+      {isMobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+          className="fixed inset-0 z-40 bg-white/95 dark:bg-neutral-950/95 backdrop-blur-xl pt-24 px-6 md:hidden flex flex-col"
+        >
+          <nav className="flex flex-col gap-6 text-lg font-medium">
+            <Link 
+                href="/about" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-gray-900 dark:text-white hover:text-krimson dark:hover:text-amber-500"
+            >
+                About
+            </Link>
 
-				{/* Desktop Right Side Icons & Button - UPDATED */}
-				<div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-					{/* REMOVED: Wishlist Icon */}
-					{/* REMOVED: Cart Icon */}
+            {/* Mobile Services Accordion */}
+            <div>
+                <button 
+                    onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
+                    className="flex items-center justify-between w-full text-gray-900 dark:text-white hover:text-krimson dark:hover:text-amber-500"
+                >
+                    Services
+                    <ChevronDown size={20} className={`transition-transform ${isMobileServicesOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                <AnimatePresence>
+                    {isMobileServicesOpen && (
+                        <motion.div 
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden pl-4 mt-4 flex flex-col gap-4 border-l-2 border-gray-100 dark:border-white/10"
+                        >
+                            {servicesList.map((service) => (
+                                <Link 
+                                    key={service.title}
+                                    href={service.href}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400"
+                                >
+                                    <service.icon size={16} className="text-krimson dark:text-amber-500" />
+                                    {service.title}
+                                </Link>
+                            ))}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
 
-					{/* Theme Toggle */}
-					<div className="cursor-pointer">
-						<ThemeToggle />
-					</div>
+            <Link 
+                href="/Blog" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-gray-900 dark:text-white hover:text-krimson dark:hover:text-amber-500"
+            >
+                Insights
+            </Link>
+            <Link 
+                href="/contact" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-gray-900 dark:text-white hover:text-krimson dark:hover:text-amber-500"
+            >
+                Contact
+            </Link>
+          </nav>
 
-					{/* Sign In Button */}
-					<Link
-						href="/#"
-						className="ml-6 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
-					>
-						Sign in →
-					</Link>
-				</div>
-
-				{/* Mobile Icons & Burger Menu (Visible on Mobile) - UPDATED */}
-				<div className="md:hidden flex items-center space-x-5">
-                    {/* Mobile Theme Toggle */}
-                    <div className="cursor-pointer">
-						<ThemeToggle />
-					</div>
-                    {/* REMOVED: Mobile Wishlist Icon */}
-                    {/* REMOVED: Mobile Cart Icon */}
-
-                    {/* Mobile Menu Toggle */}
-					<button
-						onClick={toggleMobileMenu}
-						className="text-gray-700 dark:text-gray-300 focus:outline-none"
-						aria-label="Toggle mobile menu"
-					>
-						{isMobileMenuOpen ? (
-							<IoCloseOutline className="h-8 w-8" />
-						) : (
-							<IoMenuOutline className="h-8 w-8" />
-						)}
-					</button>
-				</div>
-			</div>
-
-			{/* Mobile Menu (Animated) - No structural changes needed, updates from navLinks array */}
-			<AnimatePresence>
-				{isMobileMenuOpen && (
-					<motion.div
-						initial={{ opacity: 0, y: -20 }}
-						animate={{ opacity: 1, y: 0 }}
-						exit={{ opacity: 0, y: -20 }}
-						transition={{ duration: 0.2 }}
-						className="md:hidden fixed top-20 left-0 w-full bg-white dark:bg-gray-800 shadow-lg py-4 z-40 border-t border-gray-200 dark:border-gray-700 max-h-[calc(100vh-80px)] overflow-y-auto"
-					>
-						<nav className="flex flex-col items-center space-y-4 px-4">
-							{navLinks.map((link) => (
-								<div key={link.name} className="w-full">
-									{link.dropdown ? (
-										<>
-											<button
-												className="flex items-center justify-center gap-2 w-full text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-cyan-400 text-lg font-medium transition-colors duration-200 py-2 text-left"
-												onClick={() =>
-													toggleMobileDropdown(
-														link.name
-													)
-												}
-											>
-												<span>{link.name}</span>
-												{openMobileDropdown ===
-												link.name ? (
-													<IoChevronUpOutline className="ml-2 h-4 w-4" />
-												) : (
-													<IoChevronDownOutline className="ml-2 h-4 w-4" />
-												)}
-											</button>
-											<AnimatePresence>
-												{openMobileDropdown ===
-													link.name && (
-													<motion.div
-														initial={{ opacity: 0, height: 0 }}
-														animate={{ opacity: 1, height: "auto" }}
-														exit={{ opacity: 0, height: 0 }}
-														transition={{ duration: 0.2 }}
-														className="flex flex-col items-start space-y-2 pl-4 border-l border-gray-300 dark:border-gray-600 mt-2 overflow-hidden"
-													>
-														{link.dropdown.map(
-															(dropItem) => (
-																<Link
-																	key={dropItem.name}
-																	href={dropItem.href}
-																	className="w-full text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-cyan-400 text-base transition-colors duration-200 py-1"
-																	onClick={toggleMobileMenu}
-																>
-																	{dropItem.name}
-																</Link>
-															)
-														)}
-													</motion.div>
-												)}
-											</AnimatePresence>
-										</>
-									) : (
-										<Link
-											key={link.name}
-											href={link.href}
-											className="block w-full text-center text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-cyan-400 text-lg font-medium transition-colors duration-200 py-2"
-											onClick={toggleMobileMenu}
-										>
-											{link.name}
-										</Link>
-									)}
-								</div>
-							))}
-
-							{/* Mobile Auth Buttons */}
-							<div className="flex flex-col items-center space-y-3 mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 w-full">
-								<Link
-									href="/#"
-									className="w-full text-center bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl text-lg"
-									onClick={toggleMobileMenu}
-								>
-									Sign up
-								</Link>
-								<Link
-									href="/#"
-									className="w-full text-center border border-blue-500 dark:border-cyan-500 text-blue-600 dark:text-cyan-400 font-semibold px-6 py-3 rounded-full transition-all duration-300 hover:bg-blue-50 dark:hover:bg-gray-700 text-lg"
-									onClick={toggleMobileMenu}
-								>
-									Log in
-								</Link>
-							</div>
-						</nav>
-					</motion.div>
-				)}
-			</AnimatePresence>
-		</header>
-	);
+          {/* Mobile CTA */}
+          <div className="mt-auto pb-10">
+             <Link href="/quote" onClick={() => setIsMobileMenuOpen(false)} className="block w-full bg-krimson text-white py-4 rounded-full font-bold text-center shadow-lg">
+                Request a Quote
+             </Link>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
+  );
 }
-
-export default Header;

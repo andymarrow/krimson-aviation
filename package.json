@@ -1,5 +1,5 @@
 {
-	"name": "yours-tech-academy",
+	"name": "krimson-aviation",
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
@@ -46,6 +46,7 @@
 		"lucide-react": "^0.487.0",
 		"next": "^15.2.4",
 		"next-themes": "^0.4.6",
+		"nextjs-toploader": "^3.9.17",
 		"react": "^18",
 		"react-beautiful-dnd": "^13.1.1",
 		"react-dom": "^18",

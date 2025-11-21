@@ -1,140 +1,104 @@
-// src/components/Footer.js or src/components/Footer.tsx
-"use client"
-
+"use client";
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { FaInstagram, FaTelegramPlane, FaYoutube, FaTwitter, FaTiktok, FaEnvelope, FaLinkedinIn } from 'react-icons/fa';
+import { FaInstagram, FaLinkedinIn, FaTwitter, FaFacebookF } from 'react-icons/fa'; // Added FacebookF to match your links
 
 function Footer() {
-    // Replicate the nav items from the Header
-    const navItems = [
-        { name: 'Home', href: '/' },
-    { name: 'Blog', href: '/Blog' },
-    { name: 'Contact', href: '/contact' },
-    { name: 'About', href: '/About', display: 'About us' },
-    ];
-
-    // Social media links (replace with actual URLs)
-    const socialLinks = [
-    { name: 'Instagram', href: '/', icon: FaInstagram}, // Moved these up to appear first visually
-    { name: 'Telegram', href: '/', icon: FaTelegramPlane },
-    { name: 'YouTube', href: '/', icon: FaYoutube },
-    { name: 'X', href: '/', icon: FaTwitter },
-    { name: 'TikTok', href: '/', icon: FaTiktok },
-    { name: 'Gmail', href: '/', icon: FaEnvelope },
-    { name: 'LinkedIn', href: '/', icon: FaLinkedinIn },
-];
-
+  
+  // Define social links array for cleaner mapping
+  const socialLinks = [
+    { icon: FaLinkedinIn, href: "https://www.linkedin.com/company/krimson-aviation/" },
+    { icon: FaTwitter, href: "https://twitter.com/KrimsonAviation" },
+    { icon: FaFacebookF, href: "https://www.facebook.com/KrimsonAviation" },
+    { icon: FaInstagram, href: "https://www.instagram.com/krimson.aviation/" },
+  ];
 
   return (
-    <footer className="bg-gray-100 text-gray-700 dark:bg-gray-950 dark:text-gray-400 py-12 relative overflow-hidden">
-
-         <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-cyan-200 opacity-40 dark:bg-cyan-800 dark:opacity-10 rounded-full filter blur-3xl animate-blob pointer-events-none"></div>
-         <div className="absolute top-0 right-1/4 w-64 h-64 bg-cyan-200 opacity-40 dark:bg-cyan-600 dark:opacity-10 rounded-full filter blur-3xl animate-blob animation-delay-2000 pointer-events-none"></div>
-
-
-      <div className="container mx-auto px-4 z-10 relative">
-        {/* Main Grid/Flex Layout */}
-        <div className="flex flex-col md:flex-row md:justify-between gap-y-8 md:gap-x-12 lg:gap-x-16 border-b border-gray-200 dark:border-gray-800 pb-8 mb-8">
-
-          {/* Column 1: Logo and Description */}
-          <div className="w-full md:w-1/3 lg:w-1/4 flex flex-col items-center md:items-start text-center md:text-left">
-            <Link href="/" className="flex flex-wrap items-center gap-2 mb-4" legacyBehavior>
-                <a>
-                    <div className='flex flex-row items-center gap-2'>
-                        <div>
-                            <Image
-                                src={"/images/logo.jpg"}
-                                alt={`equb logo`}
-                                width={40}
-                                height={40}
-                                className="object-cover rounded-full" 
-                            />
-                        </div>
-                        <div className="flex flex-col -space-y-1">
-                            <span className="text-xl font-bold text-gray-800 dark:text-white">
-                                <span className="text-cyan-800 dark:text-cyan-500">Centeral</span> Hub
-                            </span>
-                            <span className="text-xs text-gray-600 dark:text-gray-500">
-                                Immigration / citizenship ms
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </Link>
-            <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-500 max-w-sm mt-2 pt-4">
-              Empowering Our Organization together.
-            </p>
-                <p className="text-cyan-800 dark:text-cyan-500 pt-4">
-                    " Central Hub " 
-                </p>
-          </div>
-
-          {/* Column 2: Navigation Links */}
-          <div className="w-full md:w-1/3 lg:w-1/4 items-center md:items-start text-center md:text-left"> 
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4 border-b border-cyan-800 dark:border-cyan-600 pb-2 inline-block">
-                Our page routes
-            </h3>
-            <ul className="space-y-3">
-              {navItems.map((item) => (
-                <li key={item.name}>
-                  <Link href={item.href} legacyBehavior>
-                    <a className="text-gray-700 dark:text-gray-500 hover:text-cyan-700 dark:hover:text-cyan-400 transition-colors duration-200 text-sm">
-                      {item.display || item.name}
-                    </a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 3: Social Media Links */}
-           <div className="w-full md:w-1/3 lg:w-1/4 flex flex-col items-center md:items-start text-center md:text-left"> {/* Added text-center md:text-left */}
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4 border-b border-cyan-800 dark:border-cyan-600 pb-2 inline-block">
-                Follow us
-              </h3>
-              <div className="flex flex-wrap justify-center md:justify-start gap-4 text-gray-600 dark:text-gray-500">
-            
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.name}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.name}
-                    className={`text-cyan-500 hover:text-cyan-700 dark:text-blue-400 dark:hover:text-blue-700 transition-colors duration-200 transform hover:scale-110`}
-                  >
-                    <social.icon className="h-6 w-6" />
-                  </a>
-                ))}
-              </div>
+    <footer className="bg-[#1a1a1a] text-white pt-20 pb-10 rounded-t-[3rem] mt-[-3rem] relative z-20">
+      <div className="container mx-auto px-6 md:px-12">
+        
+        {/* Top Section: Big Brand & Call */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-white/10 pb-16 mb-16">
+           <div className="max-w-xl">
+              <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 text-white">
+                Let's Fly.
+              </h2>
+              <p className="text-gray-400 text-lg">
+                Krimson Aviation is the gateway to African skies, providing world-class flight support, charter, and concierge services.
+              </p>
            </div>
-
-           {/* Column 4: Address Info (Hidden below lg) */}
-           {/* This column is already hidden below lg, so no mobile specific layout needed */}
-             <div className="w-full md:w-1/3 lg:w-1/4 hidden lg:block">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4 border-b border-cyan-800 dark:border-cyan-600 pb-2 inline-block">
-                    Address
-                </h3>
-                <p className="text-sm text-gray-700 dark:text-gray-500 mb-2">
-                    Bole , Addis Ababa , Ethiopia
-                </p>
-                <div className="text-sm text-gray-700 dark:text-gray-500 mb-2 space-y-1">
-                    <div>phone: +251 912 345 678</div>
-                    <div className="pl-8">+251 912 345 678 </div>
-                    <div className="pl-8">+251 912 345 678</div>
-                </div>
-                <p className="text-sm text-gray-700 dark:text-gray-500">
-                    Email: Centralhub@Centralhub.org
-                </p>
-            </div>
+           <div className="mt-8 md:mt-0 flex gap-4">
+              {/* Socials - Mapped with Real Links */}
+              {socialLinks.map((social, i) => (
+                <a 
+                    key={i} 
+                    href={social.href}
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 rounded-full bg-white/5 hover:bg-krimson flex items-center justify-center transition-colors border border-white/10"
+                >
+                  <social.icon size={20} />
+                </a>
+              ))}
+           </div>
         </div>
 
-        {/* Copyright Section */}
-        <div className="text-center text-sm text-gray-600 dark:text-gray-600">
-          © {new Date().getFullYear()} Central hub - all Rights reserved
+        {/* Grid Links */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-20">
+          
+          {/* Column 1 */}
+          <div className="space-y-6">
+             <h4 className="text-amber-500 font-mono text-sm uppercase tracking-widest">Company</h4>
+             <ul className="space-y-4 text-gray-400">
+                <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
+                <li><Link href="/careers" className="hover:text-white transition-colors">Careers</Link></li>
+                <li><Link href="/news" className="hover:text-white transition-colors">Press & News</Link></li>
+             </ul>
+          </div>
+
+          {/* Column 2 */}
+          <div className="space-y-6">
+             <h4 className="text-amber-500 font-mono text-sm uppercase tracking-widest">Services</h4>
+             <ul className="space-y-4 text-gray-400">
+                <li><Link href="/services/flight-support" className="hover:text-white transition-colors">Flight Support</Link></li>
+                <li><Link href="/services/charter" className="hover:text-white transition-colors">Private Charter</Link></li>
+                <li><Link href="/services/koncierge" className="hover:text-white transition-colors">Luxury Koncierge</Link></li>
+                <li><Link href="/services/mro" className="hover:text-white transition-colors">MRO Services</Link></li>
+             </ul>
+          </div>
+
+          {/* Column 3 */}
+          <div className="space-y-6">
+             <h4 className="text-amber-500 font-mono text-sm uppercase tracking-widest">Support</h4>
+             <ul className="space-y-4 text-gray-400">
+                <li><Link href="/permits" className="hover:text-white transition-colors">Permit Status</Link></li>
+                <li><Link href="/fuel" className="hover:text-white transition-colors">Fuel Quotes</Link></li>
+                <li><Link href="/contact" className="hover:text-white transition-colors">Contact Ops</Link></li>
+             </ul>
+          </div>
+
+          {/* Column 4: Address */}
+          <div className="space-y-6">
+             <h4 className="text-amber-500 font-mono text-sm uppercase tracking-widest">Headquarters</h4>
+             <address className="text-gray-400 not-italic space-y-2">
+                <p>Bole International Airport</p>
+                <p>Addis Ababa, Ethiopia</p>
+                <p className="pt-4 text-white font-medium">+251 116 678 980</p>
+                <p>ops@krimson.aero</p>
+             </address>
+          </div>
+
         </div>
+
+        {/* Bottom Copyright */}
+        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 text-sm text-gray-600">
+           <p>© {new Date().getFullYear()} Krimson Aviation. All Rights Reserved.</p>
+           <div className="flex gap-6 mt-4 md:mt-0">
+              <Link href="/privacy" className="hover:text-gray-400">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-gray-400">Terms of Service</Link>
+           </div>
+        </div>
+
       </div>
     </footer>
   );

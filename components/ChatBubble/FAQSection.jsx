@@ -1,36 +1,68 @@
-import React from 'react';
-import FAQItem from './FAQItem';
+"use client";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 
+// Aviation Data
 const faqData = [
     {
-        question: "What is Centeral Hub?",
-        answer: "Centeral Hub is the official digital platform for our organization. It's a centralized system for managing membership, viewing events, participating in leagues, and staying connected with the community."
+        question: "How fast can you secure a landing permit?",
+        answer: "For most African countries, we can secure permits within 24-48 hours. Emergency medical flights can often be cleared in under 6 hours depending on the CAA."
     },
     {
-        question: "How do I become a member?",
-        answer: "You can apply for membership by clicking the 'Join Us' or 'Sign Up' button on the homepage. Simply fill out the online registration form, and your application will be sent to an administrator for review and approval."
+        question: "Do you offer credit for fuel?",
+        answer: "Yes. We offer fuel and handling on credit at over 3,000 locations globally with a single consolidated invoice."
     },
     {
-        question: "How can I find and register for events?",
-        answer: "After logging in, navigate to the 'Events' section on your dashboard. You will see a calendar with all upcoming meetings and activities. You can click on an event to see details and RSVP directly."
+        question: "How do I request an AOG technician?",
+        answer: "Please use the 'Live Ops' tab or call our 24/7 hotline immediately. We will deploy our nearest certified engineer."
     },
     {
-        question: "What are 'Leagues' and how do I join one?",
-        answer: "Leagues are specific interest groups within our organization, such as the 'Women's League' or 'Youth League'. You can join a league by going to your profile, selecting the 'Leagues' tab, and clicking 'Join' on the one you're interested in."
-    },
-    {
-        question: "How do I update my personal information?",
-        answer: "You can update your contact details, address, and other personal information by logging in, clicking your name in the top corner, and selecting 'My Profile' from the menu."
-    },
-     {
-        question: "Who should I contact if I have a problem with the platform?",
-        answer: "If you are experiencing technical difficulties or have questions about using Centeral Hub, please visit our 'Contact Us' page and select 'Technical Support' as the topic for your inquiry."
+        question: "Which aircraft types do you support?",
+        answer: "We handle everything from light turboprops (PC-12) to heavy commercial airliners (B777) and VVIP wide-bodies."
     },
 ];
 
+function FAQItem({ question, answer }) {
+	const [isOpen, setIsOpen] = useState(false);
+
+	return (
+		<div className="border-b border-gray-100 dark:border-white/5 last:border-0">
+			<button
+				className="flex justify-between items-center w-full text-left py-4 px-4 focus:outline-none hover:bg-gray-50 dark:hover:bg-white/5 transition-colors duration-200 rounded-lg my-1"
+				onClick={() => setIsOpen(!isOpen)}
+			>
+				<span className={`text-sm font-bold transition-colors ${isOpen ? "text-krimson dark:text-amber-500" : "text-gray-700 dark:text-gray-300"}`}>
+					{question}
+				</span>
+				{isOpen ? (
+					<IoChevronUp className="flex-shrink-0 h-4 w-4 text-krimson dark:text-amber-500" /> 
+				) : (
+					<IoChevronDown className="flex-shrink-0 h-4 w-4 text-gray-400" /> 
+				)}
+			</button>
+			<AnimatePresence initial={false}>
+				{isOpen && (
+					<motion.div
+						initial={{ opacity: 0, height: 0 }}
+						animate={{ opacity: 1, height: "auto" }}
+						exit={{ opacity: 0, height: 0 }}
+						transition={{ duration: 0.2, ease: "easeInOut" }}
+						className="overflow-hidden px-4"
+					>
+						<p className="pb-4 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                            {answer}
+                        </p>
+					</motion.div>
+				)}
+			</AnimatePresence>
+		</div>
+	);
+}
+
 function FAQSection() {
     return (
-        <div className="flex-grow overflow-y-auto p-2">
+        <div className="flex-grow overflow-y-auto p-2 bg-white dark:bg-neutral-900">
             {faqData.map((item, index) => (
                 <FAQItem key={index} question={item.question} answer={item.answer} />
             ))}

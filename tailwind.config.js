@@ -8,6 +8,15 @@ module.exports = {
   ],
   theme: {
   	extend: {
+		animation: {
+        'infinite-scroll': 'infinite-scroll 25s linear infinite',
+      },
+      keyframes: {
+        'infinite-scroll': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-100%)' },
+        }
+      },
   		backgroundImage: {
   			'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
   			'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
@@ -18,6 +27,17 @@ module.exports = {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+			 krimson: {
+				DEFAULT: '#8B0000', 
+				light: '#A52A2A',  
+				dark: '#2D0A0A',    
+				cream: '#F5F5F0',   
+				gold: '#D4AF37',    
+			},
+			amber: {
+				400: '#fbbf24',
+				500: '#f59e0b',
+			},
   			'primary-blue-dark': '#03045E',
   			'secondary-blue': '#0077b6',
   			'accent-blue': '#00b4d8',
