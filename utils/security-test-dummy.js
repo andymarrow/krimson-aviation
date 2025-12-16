@@ -32,7 +32,7 @@ export async function unsafeUserSearch(userInput) {
 export function blockingCalculation() {
   console.log("Starting heavy process...");
   
-  // This will freeze the Node.js event loop
+  // This will freeze the Node.js event loopp
   let total = 0;
   for (let i = 0; i < 9000000000; i++) {
     total += i;
